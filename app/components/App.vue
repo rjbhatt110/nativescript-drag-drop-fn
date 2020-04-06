@@ -1,28 +1,55 @@
 <template>
   <Page>
-    <ActionBar title="Drag and Drop Nativescript"/>
-    <GridLayout
-      ref="grid"
-      rows="auto, auto"
-      columns="auto,auto"
-      verticalAlignment="top"
-      horizontalAlignment="center"
-    >
-      <Image ref="box0" src="res://droparea" row="0" col="0" class="box" />
-      <Image ref="box1" src="res://droparea" row="0" col="1" class="box" />
-      <Image ref="box2" src="res://droparea" row="1" col="0" class="box" />
-      <Image ref="box3" src="res://droparea" row="1" col="1" class="box" />
-      <Image
-        v-for="(drag, index) in boxArray"
-        :key="drag.refId"
-        :ref="index"
-        :src="drag.src"
-        :row="drag.row"
-        :col="drag.col"
-        class="solid"
-        @pan="onPan($event, index, drag)"
-      />
-    </GridLayout>
+    <ActionBar title="Drag and Drop Nativescript" />
+    <StackLayout>
+      <GridLayout
+        ref="grid"
+        rows="auto, auto"
+        columns="auto,auto"
+        verticalAlignment="top"
+        horizontalAlignment="center"
+      >
+        <Image
+          ref="dropArea0"
+          src="res://droparea"
+          row="0"
+          col="0"
+          class="droparea_square"
+        />
+        <Image
+          ref="dropArea1"
+          src="res://droparea"
+          row="0"
+          col="1"
+          class="droparea_square"
+        />
+        <Image
+          ref="dropArea2"
+          src="res://droparea"
+          row="1"
+          col="0"
+          class="droparea_square"
+        />
+        <Image
+          ref="dropArea3"
+          src="res://droparea"
+          row="1"
+          col="1"
+          class="droparea_square"
+        />
+        <Image
+          v-for="(drag, index) in boxArray"
+          :key="drag.refId"
+          :ref="index"
+          :src="drag.src"
+          :row="drag.row"
+          :col="drag.col"
+          class="drag_item"
+          @pan="onPan($event, index, drag)"
+        />
+      </GridLayout>
+      <Image src="res://correct" width="50" height="50" v-if="right" />
+    </StackLayout>
   </Page>
 </template>
 
@@ -33,29 +60,56 @@ export default {
   name: "Home",
   data() {
     return {
+      right: false,
       boxArray: [
         {
-          refId: "drag0",
+          refId: "drag4",
           row: 0,
           col: 0,
-          src: "res://dragbox1",
+          src: "res://dragbox4",
         },
         {
           refId: "drag1",
           row: 0,
           col: 1,
-          src: "res://dragbox2",
+          src: "res://dragbox1",
         },
         {
           refId: "drag2",
           row: 1,
           col: 0,
-          src: "res://dragbox3",
+          src: "res://dragbox2",
         },
         {
           refId: "drag3",
           row: 1,
           col: 1,
+          src: "res://dragbox3",
+        },
+      ],
+      finalArray: [
+        {
+          refId: "drag1",
+          row: 0,
+          col: 1,
+          src: "res://dragbox1",
+        },
+        {
+          refId: "drag2",
+          row: 1,
+          col: 0,
+          src: "res://dragbox2",
+        },
+        {
+          refId: "drag3",
+          row: 1,
+          col: 1,
+          src: "res://dragbox3",
+        },
+        {
+          refId: "drag4",
+          row: 0,
+          col: 0,
           src: "res://dragbox4",
         },
       ],
@@ -64,10 +118,10 @@ export default {
   computed: {},
   created() {},
   mounted() {
-    this.box0 = this.$refs.box0.nativeView;
-    this.box1 = this.$refs.box1.nativeView;
-    this.box2 = this.$refs.box2.nativeView;
-    this.box3 = this.$refs.box3.nativeView;
+    this.dropArea0 = this.$refs.dropArea0.nativeView;
+    this.dropArea1 = this.$refs.dropArea1.nativeView;
+    this.dropArea2 = this.$refs.dropArea2.nativeView;
+    this.dropArea3 = this.$refs.dropArea3.nativeView;
   },
   methods: {
     onPan(args, ref, box) {
@@ -89,88 +143,88 @@ export default {
         // Drop Area animation whenever Object pass over from.
         if (
           this.$refs[ref][0].nativeView.getLocationOnScreen().x >=
-            this.box0.getLocationOnScreen().x &&
+            this.dropArea0.getLocationOnScreen().x &&
           this.$refs[ref][0].nativeView.getLocationOnScreen().x <=
-            this.box0.getLocationOnScreen().x + this.box0.width &&
+            this.dropArea0.getLocationOnScreen().x + this.dropArea0.width &&
           this.$refs[ref][0].nativeView.getLocationOnScreen().y >=
-            this.box0.getLocationOnScreen().y &&
+            this.dropArea0.getLocationOnScreen().y &&
           this.$refs[ref][0].nativeView.getLocationOnScreen().y <=
-            this.box0.getLocationOnScreen().y + this.box0.height
+            this.dropArea0.getLocationOnScreen().y + this.dropArea0.height
         ) {
-          this.box0.scaleX = 1.1;
-          this.box0.scaleY = 1.1;
+          this.dropArea0.scaleX = 1.1;
+          this.dropArea0.scaleY = 1.1;
         } else {
-          this.box0.scaleX = 1;
-          this.box0.scaleY = 1;
+          this.dropArea0.scaleX = 1;
+          this.dropArea0.scaleY = 1;
         }
 
         if (
           this.$refs[ref][0].nativeView.getLocationOnScreen().x >=
-            this.box1.getLocationOnScreen().x &&
+            this.dropArea1.getLocationOnScreen().x &&
           this.$refs[ref][0].nativeView.getLocationOnScreen().x <=
-            this.box1.getLocationOnScreen().x + this.box1.width &&
+            this.dropArea1.getLocationOnScreen().x + this.dropArea1.width &&
           this.$refs[ref][0].nativeView.getLocationOnScreen().y >=
-            this.box1.getLocationOnScreen().y &&
+            this.dropArea1.getLocationOnScreen().y &&
           this.$refs[ref][0].nativeView.getLocationOnScreen().y <=
-            this.box1.getLocationOnScreen().y + this.box1.height
+            this.dropArea1.getLocationOnScreen().y + this.dropArea1.height
         ) {
-          this.box1.scaleX = 1.1;
-          this.box1.scaleY = 1.1;
+          this.dropArea1.scaleX = 1.1;
+          this.dropArea1.scaleY = 1.1;
         } else {
-          this.box1.scaleX = 1;
-          this.box1.scaleY = 1;
+          this.dropArea1.scaleX = 1;
+          this.dropArea1.scaleY = 1;
         }
 
         if (
           this.$refs[ref][0].nativeView.getLocationOnScreen().x >=
-            this.box2.getLocationOnScreen().x &&
+            this.dropArea2.getLocationOnScreen().x &&
           this.$refs[ref][0].nativeView.getLocationOnScreen().x <=
-            this.box2.getLocationOnScreen().x + this.box2.width &&
+            this.dropArea2.getLocationOnScreen().x + this.dropArea2.width &&
           this.$refs[ref][0].nativeView.getLocationOnScreen().y >=
-            this.box2.getLocationOnScreen().y &&
+            this.dropArea2.getLocationOnScreen().y &&
           this.$refs[ref][0].nativeView.getLocationOnScreen().y <=
-            this.box2.getLocationOnScreen().y + this.box2.height
+            this.dropArea2.getLocationOnScreen().y + this.dropArea2.height
         ) {
-          this.box2.scaleX = 1.1;
-          this.box2.scaleY = 1.1;
+          this.dropArea2.scaleX = 1.1;
+          this.dropArea2.scaleY = 1.1;
         } else {
-          this.box2.scaleX = 1;
-          this.box2.scaleY = 1;
+          this.dropArea2.scaleX = 1;
+          this.dropArea2.scaleY = 1;
         }
 
         if (
           this.$refs[ref][0].nativeView.getLocationOnScreen().x >=
-            this.box3.getLocationOnScreen().x &&
+            this.dropArea3.getLocationOnScreen().x &&
           this.$refs[ref][0].nativeView.getLocationOnScreen().x <=
-            this.box3.getLocationOnScreen().x + this.box3.width &&
+            this.dropArea3.getLocationOnScreen().x + this.dropArea3.width &&
           this.$refs[ref][0].nativeView.getLocationOnScreen().y >=
-            this.box3.getLocationOnScreen().y &&
+            this.dropArea3.getLocationOnScreen().y &&
           this.$refs[ref][0].nativeView.getLocationOnScreen().y <=
-            this.box3.getLocationOnScreen().y + this.box3.height
+            this.dropArea3.getLocationOnScreen().y + this.dropArea3.height
         ) {
-          this.box3.scaleX = 1.1;
-          this.box3.scaleY = 1.1;
+          this.dropArea3.scaleX = 1.1;
+          this.dropArea3.scaleY = 1.1;
         } else {
-          this.box3.scaleX = 1;
-          this.box3.scaleY = 1;
+          this.dropArea3.scaleX = 1;
+          this.dropArea3.scaleY = 1;
         }
         // UP
       } else if (args.state === 3) {
         if (
-          // <========== BOX 0 ===========>
+          // <========== Drop Area 0 ===========>
           this.$refs[ref][0].nativeView.getLocationOnScreen().x >=
-            this.box0.getLocationOnScreen().x &&
+            this.dropArea0.getLocationOnScreen().x &&
           this.$refs[ref][0].nativeView.getLocationOnScreen().x <=
-            this.box0.getLocationOnScreen().x + this.box0.width &&
+            this.dropArea0.getLocationOnScreen().x + this.dropArea0.width &&
           this.$refs[ref][0].nativeView.getLocationOnScreen().y >=
-            this.box0.getLocationOnScreen().y &&
+            this.dropArea0.getLocationOnScreen().y &&
           this.$refs[ref][0].nativeView.getLocationOnScreen().y <=
-            this.box0.getLocationOnScreen().y + this.box0.height
+            this.dropArea0.getLocationOnScreen().y + this.dropArea0.height
         ) {
           this.translateX = this.$refs[ref][0].nativeView.translateX;
           this.translateY = this.$refs[ref][0].nativeView.translateY;
-          this.box0.scaleX = 1;
-          this.box0.scaleY = 1;
+          this.dropArea0.scaleX = 1;
+          this.dropArea0.scaleY = 1;
 
           if (this.$refs[ref][0].nativeView.translateX >= -30) {
             this.$refs[ref][0].nativeView.translateX = 0;
@@ -305,20 +359,20 @@ export default {
           this.boxArray.splice(ref, 1, this.boxArray[0]);
           this.boxArray.splice(0, 1, box);
         } else if (
-          // <========== BOX 1 ===========>
+          // <========== Drop Area 1 ===========>
           this.$refs[ref][0].nativeView.getLocationOnScreen().x >=
-            this.box1.getLocationOnScreen().x &&
+            this.dropArea1.getLocationOnScreen().x &&
           this.$refs[ref][0].nativeView.getLocationOnScreen().x <=
-            this.box1.getLocationOnScreen().x + this.box1.width &&
+            this.dropArea1.getLocationOnScreen().x + this.dropArea1.width &&
           this.$refs[ref][0].nativeView.getLocationOnScreen().y >=
-            this.box1.getLocationOnScreen().y &&
+            this.dropArea1.getLocationOnScreen().y &&
           this.$refs[ref][0].nativeView.getLocationOnScreen().y <=
-            this.box1.getLocationOnScreen().y + this.box1.height
+            this.dropArea1.getLocationOnScreen().y + this.dropArea1.height
         ) {
           this.translateX = this.$refs[ref][0].nativeView.translateX;
           this.translateY = this.$refs[ref][0].nativeView.translateY;
-          this.box1.scaleX = 1;
-          this.box1.scaleY = 1;
+          this.dropArea1.scaleX = 1;
+          this.dropArea1.scaleY = 1;
           if (this.$refs[ref][0].nativeView.translateX >= 140) {
             this.$refs[ref][0].nativeView.translateX = 160;
           } else {
@@ -444,20 +498,20 @@ export default {
           this.boxArray.splice(ref, 1, this.boxArray[1]);
           this.boxArray.splice(1, 1, box);
         } else if (
-          // <========== BOX 2 ===========>
+          // <========== Drop Area 2 ===========>
           this.$refs[ref][0].nativeView.getLocationOnScreen().x >=
-            this.box2.getLocationOnScreen().x &&
+            this.dropArea2.getLocationOnScreen().x &&
           this.$refs[ref][0].nativeView.getLocationOnScreen().x <=
-            this.box2.getLocationOnScreen().x + this.box2.width &&
+            this.dropArea2.getLocationOnScreen().x + this.dropArea2.width &&
           this.$refs[ref][0].nativeView.getLocationOnScreen().y >=
-            this.box2.getLocationOnScreen().y &&
+            this.dropArea2.getLocationOnScreen().y &&
           this.$refs[ref][0].nativeView.getLocationOnScreen().y <=
-            this.box2.getLocationOnScreen().y + this.box2.height
+            this.dropArea2.getLocationOnScreen().y + this.dropArea2.height
         ) {
           this.translateX = this.$refs[ref][0].nativeView.translateX;
           this.translateY = this.$refs[ref][0].nativeView.translateY;
-          this.box2.scaleX = 1;
-          this.box2.scaleY = 1;
+          this.dropArea2.scaleX = 1;
+          this.dropArea2.scaleY = 1;
 
           if (this.$refs[ref][0].nativeView.translateX <= -30) {
             this.$refs[ref][0].nativeView.translateX = -160;
@@ -565,20 +619,20 @@ export default {
           this.boxArray.splice(ref, 1, this.boxArray[2]);
           this.boxArray.splice(2, 1, box);
         } else if (
-          // <========== BOX 3 ===========>
+          // <========== Drop Area 3 ===========>
           this.$refs[ref][0].nativeView.getLocationOnScreen().x >=
-            this.box3.getLocationOnScreen().x &&
+            this.dropArea3.getLocationOnScreen().x &&
           this.$refs[ref][0].nativeView.getLocationOnScreen().x <=
-            this.box3.getLocationOnScreen().x + this.box3.width &&
+            this.dropArea3.getLocationOnScreen().x + this.dropArea3.width &&
           this.$refs[ref][0].nativeView.getLocationOnScreen().y >=
-            this.box3.getLocationOnScreen().y &&
+            this.dropArea3.getLocationOnScreen().y &&
           this.$refs[ref][0].nativeView.getLocationOnScreen().y <=
-            this.box3.getLocationOnScreen().y + this.box3.height
+            this.dropArea3.getLocationOnScreen().y + this.dropArea3.height
         ) {
           this.translateX = this.$refs[ref][0].nativeView.translateX;
           this.translateY = this.$refs[ref][0].nativeView.translateY;
-          this.box3.scaleX = 1;
-          this.box3.scaleY = 1;
+          this.dropArea3.scaleX = 1;
+          this.dropArea3.scaleY = 1;
           if (this.$refs[ref][0].nativeView.translateX >= 120) {
             this.$refs[ref][0].nativeView.translateX = 160;
           } else {
@@ -661,6 +715,9 @@ export default {
             this.$refs[ref][0].nativeView.translateY = this.translateY;
           }, 100);
         }
+        if (JSON.stringify(this.boxArray) === JSON.stringify(this.finalArray)) {
+          this.right = true;
+        }
       }
     },
   },
@@ -669,30 +726,14 @@ export default {
 
 <style lang="scss" scoped>
 // @import "./booking.scss";
-.box {
+.droparea_square {
   margin: 15;
   width: 130;
   height: 110;
 }
 
-.solid {
+.drag_item {
   width: 90;
   height: 70;
-}
-
-.timer {
-  height: 80;
-  width: 80;
-  border-radius: 50%;
-  background: #ffffff;
-}
-
-.pie {
-  border-radius: 50%;
-  background: linear-gradient(270deg, transparent 50%, #0d9dff 50%);
-}
-
-.fill {
-  border-radius: 50%;
 }
 </style>
